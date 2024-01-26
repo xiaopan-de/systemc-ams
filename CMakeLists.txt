@@ -79,8 +79,10 @@ endif (DISABLE_PERFORMANCE_STATISTICS)
 
 if(SYSTEMC_HOME)
     include_directories(${SYSTEMC_HOME}/include)
-elseif(ENV{SYSTEMC_HOME})
+elseif(DEFINED ENV{SYSTEMC_HOME})
     include_directories($ENV{SYSTEMC_HOME}/include)
+else()
+    message(FATAL_ERROR "SYSTEMC_HOME Environment or CMake variable is not defined")
 endif()
 
 macro(install_headers)
