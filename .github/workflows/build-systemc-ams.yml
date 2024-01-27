@@ -29,7 +29,7 @@ jobs:
           echo "SYSTEMC_HOME=$GITHUB_WORKSPACE/systemc-install" >> $GITHUB_ENV
           echo "SYSTEMC_AMS_HOME=$GITHUB_WORKSPACE/systemc-ams-install" >> $GITHUB_ENV
 
-    - name: Build SystemC
+    - name: Build and Install SystemC
       run: |
         git clone https://github.com/xiaopan-de/systemc.git
         cd systemc
@@ -43,7 +43,7 @@ jobs:
       run: |
         mkdir build-systemc-ams && cd build-systemc-ams
         mkdir build && cd build
-        cmake -DSYSTEMC_HOME=$SYSTEMC_HOME .. -DCMAKE_INSTALL_PREFIX=$SYSTEMC_AMS_HOME
+        cmake -DSYSTEMC_HOME=$SYSTEMC_HOME -DCMAKE_INSTALL_PREFIX=$SYSTEMC_AMS_HOME ..
         make
         make install
         
