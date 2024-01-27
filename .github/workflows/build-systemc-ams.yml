@@ -39,11 +39,14 @@ jobs:
         make
         make install
 
+    - name: List directory structure
+      run: ls -alh
+  
     - name: Build and Install SystemC-AMS
       run: |
         mkdir build-systemc-ams && cd build-systemc-ams
         mkdir build && cd build
-        cmake .. -DSYSTEMC_HOME=$SYSTEMC_HOME -DCMAKE_INSTALL_PREFIX=$SYSTEMC_AMS_HOME 
+        cmake -DSYSTEMC_HOME=$SYSTEMC_HOME ..
         make
         make install
         
