@@ -1,0 +1,45 @@
+name: Build SystemC-AMS 
+
+on:
+  workflow_dispatch:
+    inputs:
+      ubuntuVersion:
+        description: 'Ubuntu Version (20.04 or 22.04)'
+        required: true
+        default: '22.04'
+      systemCVersion:
+        description: 'Systemc Version'
+        required: true
+        default: '2.3.4'
+jobs:
+  build:
+    runs-on: ubuntu-${{ github.event.inputs.ubuntuVersion }}
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Install Dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential cmake
+
+    - name: Install SystemC
+      run: |
+        wget https://github.com/xiaopan-de/systemc/releases/download/${{ github.event.inputs.tagVersion }}/systemc-${{ github.event.inputs.tagVersion }}-ubuntu-${{ github.event.inputs.ubuntuVersion }}.tar.gz
+        tar -xzf systemc-${{ github.event.inputs.tagVersion }}-ubuntu-${{ github.event.inputs.ubuntuVersion }}.tar.gz
+        cd systemc-${{ github.event.inputs.tagVersion }}
+
+    - name: Build and Install SystemC-AMS
+      run: |
+        export SYSTEMC_HOME=/usr/local/systemc-2.3.3
+        mkdir build && cd build
+        cmake -DSYSTEMC_HOME=$SYSTEMC_HOME ..
+        make
+        sudo make install
+        
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: systemc-artifacts
+        path: build/
