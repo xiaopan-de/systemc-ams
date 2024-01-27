@@ -48,6 +48,10 @@ jobs:
         cmake .. -DSYSTEMC_HOME=$SYSTEMC_HOME -DCMAKE_INSTALL_PREFIX=$SYSTEMC_AMS_HOME
         make
         make install
+
+    - name: List directory structure
+      run: ls -alh
+      
         
     - name: Upload Artifacts
       uses: actions/upload-artifact@v2
