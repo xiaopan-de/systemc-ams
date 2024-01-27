@@ -43,7 +43,7 @@ jobs:
       run: |
         mkdir build-systemc-ams && cd build-systemc-ams
         mkdir build && cd build
-        cmake -DSYSTEMC_HOME=$SYSTEMC_HOME -DCMAKE_INSTALL_PREFIX=$SYSTEMC_AMS_HOME ..
+        cmake .. -DSYSTEMC_HOME=$SYSTEMC_HOME -DCMAKE_INSTALL_PREFIX=$SYSTEMC_AMS_HOME 
         make
         make install
         
