@@ -24,22 +24,34 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y build-essential cmake
 
-    - name: Install SystemC
+    - name: Define Local SystemC Installation Path
       run: |
-        wget https://github.com/xiaopan-de/systemc/releases/download/${{ github.event.inputs.tagVersion }}/systemc-${{ github.event.inputs.tagVersion }}-ubuntu-${{ github.event.inputs.ubuntuVersion }}.tar.gz
-        tar -xzf systemc-${{ github.event.inputs.tagVersion }}-ubuntu-${{ github.event.inputs.ubuntuVersion }}.tar.gz
-        cd systemc-${{ github.event.inputs.tagVersion }}
+          echo "SYSTEMC_HOME=$GITHUB_WORKSPACE/systemc-install" >> $GITHUB_ENV
+          echo "SYSTEMC_AMS_HOME=$GITHUB_WORKSPACE/systemc-ams-install" >> $GITHUB_ENV
+
+    - name: Clone SystemC Repository
+      run: |
+        git clone https://github.com/xiaopan-de/systemc.git
+        cd systemc
+        git checkout tags/${{ github.event.inputs.systemCVersion }}
+
+    - name: Build SystemC
+      run: |
+        mkdir build-systemc && cd build-systemc
+        cmake -DSYSTEMC_HOME=$SYSTEMC_HOME ..
+        make
+        make install
 
     - name: Build and Install SystemC-AMS
       run: |
-        export SYSTEMC_HOME=/usr/local/systemc-2.3.3
+        mkdir build-systemc-ams && cd build-systemc-ams
         mkdir build && cd build
-        cmake -DSYSTEMC_HOME=$SYSTEMC_HOME ..
+        cmake -DSYSTEMC_HOME=$SYSTEMC_HOME .. -DCMAKE_INSTALL_PREFIX=$SYSTEMC_AMS_HOME
         make
-        sudo make install
+        make install
         
     - name: Upload Artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: systemc-artifacts
-        path: build/
+        name: systemc-ams-2.3.4
+        path: $SYSTEMC_AMS_HOME
