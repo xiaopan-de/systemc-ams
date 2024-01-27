@@ -51,10 +51,10 @@ jobs:
 
     - name: List directory structure
       run: ls -alh
-      
-        
+
+
     - name: Upload Artifacts
       uses: actions/upload-artifact@v2
       with:
         name: systemc-ams-2.3.4
-        path: $SYSTEMC_AMS_HOME
+        path: ${{ env.SYSTEMC_AMS_HOME }}
