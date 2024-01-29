@@ -35,14 +35,14 @@ jobs:
         cd systemc
         git checkout tags/${{ github.event.inputs.systemCVersion }}
         mkdir build-systemc && cd build-systemc
-        cmake -DSYSTEMC_HOME=$SYSTEMC_HOME ..
+        cmake -DCMAKE_CXX_STANDARD=14 -DSYSTEMC_HOME=$SYSTEMC_HOME ..
         make
         make install
   
     - name: Build and Install SystemC-AMS
       run: |
         mkdir build-systemc-ams && cd build-systemc-ams
-        cmake .. -DSYSTEMC_HOME=$SYSTEMC_HOME -DCMAKE_INSTALL_PREFIX=$SYSTEMC_AMS_HOME
+        cmake .. -DCMAKE_CXX_STANDARD=14 -DSYSTEMC_HOME=$SYSTEMC_HOME -DCMAKE_INSTALL_PREFIX=$SYSTEMC_AMS_HOME
         make
         make install
 
