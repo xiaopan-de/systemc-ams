@@ -35,7 +35,7 @@ jobs:
         cd systemc
         git checkout tags/${{ github.event.inputs.systemCVersion }}
         mkdir build-systemc && cd build-systemc
-        cmake -DCMAKE_CXX_STANDARD=14 -DSYSTEMC_HOME=$SYSTEMC_HOME ..
+        cmake -DCMAKE_CXX_STANDARD=14  -DBUILD_SHARED_LIBS=OFF  -DSYSTEMC_HOME=$SYSTEMC_HOME ..
         make
         make install
   
