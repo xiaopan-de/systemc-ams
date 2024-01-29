@@ -46,8 +46,15 @@ jobs:
         make
         make install
 
-    - name: Upload Artifacts
+    - name: Upload SystemC Artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: systemc-${{ github.event.inputs.systemCVersion }}
+        path: ${{ env.SYSTEMC_HOME }}
+
+    - name: Upload SystemC-AMS Artifacts
       uses: actions/upload-artifact@v2
       with:
         name: systemc-ams-2.3.4
         path: ${{ env.SYSTEMC_AMS_HOME }}
+        
